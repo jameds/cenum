@@ -1,0 +1,28 @@
+cenum is a parser for preprocessed C code which generates textual output for
+each enum. Such output is sent to stdout by default, but the program may be
+configured to write output for each enum to a separate file.
+
+Output options:
+
+-o directory - Write files to this directory. By default '-', which sends all
+               output to stdout.
+-x suffix    - Written files take this suffix. Requires '-o'. By default, '.c'.
+
+Parser options:
+
+-h header
+-t footer
+-e enumeration-text - Text to output for each enumeration.
+-s annotation - Token which must preceed the 'enum' keyword in the C code.
+
+These variables may be referenced in the header, footer and enumeration text.
+
+$n or $(name) - Identifier of the enum.
+
+These variables may be referenced in the enumeration text.
+
+$k or $(key)  - An enumeration.
+
+cenum cannot parse enums without an identifier, so called 'anonymous' enums.
+
+See cenum.c for further details.
