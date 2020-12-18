@@ -111,7 +111,7 @@ void check_options
 
 	int n = 1;
 
-	if (strcmp(av[1], "-v") == 0)
+	if (ac == 2 && strcmp(av[1], "-v") == 0)
 	{
 		puts("cenum 1");
 		exit(0);
