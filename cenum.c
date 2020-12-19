@@ -157,7 +157,7 @@ char * c_token (char *p)
 		p = eot;
 	}
 
-	p += strspn(p, "\n ");
+	p += strspn(p, " ");
 
 	if (*p == '\0')
 		return reset_parser(), NULL;
@@ -311,6 +311,7 @@ int main
 #define parser_warning(w) putsf("%s:%d: " w, filename, line_count)
 #define malformed_input() parser_warning("malformed input"), exit(1)
 
+	int newl = 1;
 	int nest = 0;
 
 	FILE *file;
@@ -345,7 +346,7 @@ int main
 	{
 		line_count++;
 
-		if (line[0] == '#')
+		if (newl && line[0] == '#')
 		{
 			p = &line[1];
 			free(filename);
@@ -355,10 +356,15 @@ int main
 		}
 		else
 		{
+			newl = 0;
 			p = line;
 			while ((p = c_token(p)))
 			{
-				if (mode == KEY && *p == '}')
+				if (*p == '\n')
+				{
+					newl = 1;
+				}
+				else if (mode == KEY && *p == '}')
 				{
 					substitute(file, &footer_printer, "n", values);
 					if (file != stdout)
