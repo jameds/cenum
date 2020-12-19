@@ -370,7 +370,15 @@ int main
 				{
 					if (strcmp(p, next))
 					{
-						if (mode != NOTE && (mode != ID || strcmp(annotation, "")))
+						if (mode == ID)
+						{
+							if (*next == '{')
+							{
+								mode = default_mode;
+								next = default_next;
+							}
+						}
+						else if (mode != NOTE)
 						{
 							if (alt && strcmp(p, alt) == 0)
 							{
@@ -405,7 +413,11 @@ int main
 								break;
 							case ID:
 								if (*p == '{')
+								{
+									file = open_out(values[0]);
+									substitute(file, &header_printer, "n", values);
 									mode = KEY;
+								}
 								next = NULL;
 								break;
 							case KEY:
@@ -438,11 +450,9 @@ int main
 				{
 					if (mode == ID)
 					{
-						file = open_out(p);
 						if (values[0])
 							free(values[0]);
 						values[0] = strdup(p);
-						substitute(file, &header_printer, "n", values);
 						next = "{";
 					}
 					else if (mode == KEY)
