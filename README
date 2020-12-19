@@ -15,6 +15,15 @@ Parser options:
 -e enumeration-text - Text to output for each enumeration.
 -s annotation - Token which must preceed the 'enum' keyword in the C code.
 
+Environment variables are also recognized:
+
+cenum_directory
+cenum_extension
+cenum_header
+cenum_footer
+cenum_pattern
+cenum_annotation
+
 These variables may be referenced in the header, footer and enumeration text.
 
 $n or $(name) - Identifier of the enum.

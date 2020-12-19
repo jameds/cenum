@@ -96,6 +96,12 @@ int set_option
 		exitwerror("'%s': unknown option", a);
 }
 
+void tryenv (const char **option, const char *env)
+{
+	if ((env = getenv(env)))
+		*option = env;
+}
+
 void check_options
 (		int     ac,
 		char ** av)
@@ -110,6 +116,13 @@ void check_options
 	};
 
 	int n = 1;
+
+	tryenv(options[0], "cenum_directory");
+	tryenv(options[1], "cenum_extension");
+	tryenv(options[2], "cenum_header");
+	tryenv(options[3], "cenum_footer");
+	tryenv(options[4], "cenum_pattern");
+	tryenv(options[5], "cenum_annotation");
 
 	if (ac == 2 && strcmp(av[1], "-v") == 0)
 	{
